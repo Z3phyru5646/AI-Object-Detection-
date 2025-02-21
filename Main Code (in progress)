@@ -1,0 +1,28 @@
+**the code is in progress**
+
+
+
+import cv2
+import numpy as np
+import random
+import os
+from PIL import Image
+import time
+
+net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")
+net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
+net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
+
+distance_thres = 50
+
+cap = cv2.VideoCapture('data/humans.mp4')
+
+def dist(pt1,pt2):
+    try:
+        return ((pt1[0]-pt2[0])**2 + (pt1[1]-pt2[1])**2)**0.5
+    except:
+        return
+
+layer_names = net.getLayerNames()
+output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
+print('Output layers',output_layers)
